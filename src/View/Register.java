@@ -14,11 +14,12 @@ public class Register extends javax.swing.JPanel {
     private void initComponents() {
 
         registerBtn = new javax.swing.JButton();
-        passwordFld = new javax.swing.JTextField();
+        passwordFld = new javax.swing.JPasswordField();
         usernameFld = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        confpassFld = new javax.swing.JTextField();
+        confpassFld = new javax.swing.JPasswordField();
         backBtn = new javax.swing.JButton();
+        errorMessage = new javax.swing.JLabel();
 
         registerBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         registerBtn.setText("REGISTER");
@@ -56,25 +57,30 @@ public class Register extends javax.swing.JPanel {
             }
         });
 
+        errorMessage.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        errorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(200, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(198, 198, 198)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(errorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(usernameFld)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(passwordFld, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(confpassFld, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap(200, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(registerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(202, 202, 202))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(backBtn)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(backBtn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(273, 273, 273)
+                        .addComponent(registerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -90,18 +96,43 @@ public class Register extends javax.swing.JPanel {
                 .addComponent(passwordFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(confpassFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorMessage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(registerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
+
+        errorMessage.getAccessibleContext().setAccessibleName("Error Message");
     }// </editor-fold>//GEN-END:initComponents
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
-        frame.registerAction(usernameFld.getText(), passwordFld.getText(), confpassFld.getText());
-        frame.loginNav();
+        String username = usernameFld.getText();
+        String password = passwordFld.getText();
+        String confpass = confpassFld.getText();
+        int role = 2;
+        
+        if (usernameFld.getText().equals("") || passwordFld.getText().equals("") || confpassFld.getText().equals("")) {
+            errorMessage.setText("Please fill all fields.");
+        } else if (!password.equals(confpass)) {
+            passwordFld.setText("");
+            confpassFld.setText("");
+            errorMessage.setText("Failed to confirm password. Please try again.");
+        } else {
+            usernameFld.setText("");
+            passwordFld.setText("");
+            confpassFld.setText("");
+            errorMessage.setText("");
+            frame.registerAction(username, password, confpass, role);
+            frame.loginNav();
+        }
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+        usernameFld.setText("");
+        passwordFld.setText("");
+        confpassFld.setText("");
+        errorMessage.setText("");
         frame.loginNav();
     }//GEN-LAST:event_backBtnActionPerformed
 
@@ -109,6 +140,7 @@ public class Register extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
     private javax.swing.JTextField confpassFld;
+    private javax.swing.JLabel errorMessage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField passwordFld;
     private javax.swing.JButton registerBtn;

@@ -200,6 +200,17 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_clientBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
+        adminBtn.setVisible(true);
+        adminBtn.setEnabled(true);
+            
+        managerBtn.setVisible(true);
+        managerBtn.setEnabled(true);
+            
+        staffBtn.setVisible(true);
+        staffBtn.setEnabled(true);
+            
+        clientBtn.setVisible(true); 
+        clientBtn.setEnabled(true);
         frameView.show(Container, "loginPnl");
     }//GEN-LAST:event_logoutBtnActionPerformed
 
@@ -246,17 +257,49 @@ public class Frame extends javax.swing.JFrame {
     
     public void mainNav(int role){
         if(role == 5){  
+            managerBtn.setVisible(false);
+            managerBtn.setEnabled(false);
+            
+            staffBtn.setVisible(false);
+            staffBtn.setEnabled(false);
+            
+            clientBtn.setVisible(false); 
+            clientBtn.setEnabled(false);
             contentView.show(Content, "adminHomePnl");
         }
         if(role == 4){
+            adminBtn.setVisible(false);
+            adminBtn.setEnabled(false);
+            
+            staffBtn.setVisible(false);
+            staffBtn.setEnabled(false);
+            
+            clientBtn.setVisible(false); 
+            clientBtn.setEnabled(false); 
             contentView.show(Content, "managerHomePnl");
         }
-        if(role == 3){  
+        if(role == 3){
+            adminBtn.setVisible(false);
+            adminBtn.setEnabled(false);
+            
+            managerBtn.setVisible(false);
+            managerBtn.setEnabled(false);
+            
+            clientBtn.setVisible(false); 
+            clientBtn.setEnabled(false);
             contentView.show(Content, "staffHomePnl");     
         }
         if(role == 2){
+            adminBtn.setVisible(false);
+            adminBtn.setEnabled(false);
+            
+            managerBtn.setVisible(false);
+            managerBtn.setEnabled(false);
+            
+            staffBtn.setVisible(false);
+            staffBtn.setEnabled(false);
             contentView.show(Content, "clientHomePnl");
-        }
+       }
         frameView.show(Container, "homePnl");
     }
     

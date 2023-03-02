@@ -14,8 +14,7 @@ import java.util.Date;
 
 public class Main {
     
-    public static SQLite sqlite;
-    public static ArrayList<User> users;
+    public SQLite sqlite;
     public static void main(String[] args) {
         new Main().init();
     }
@@ -91,7 +90,7 @@ public class Main {
             System.out.println(" Price: " + products.get(nCtr).getPrice());
         }
         // Get users
-        users = sqlite.getUsers();
+        ArrayList<User> users = sqlite.getUsers();
         for(int nCtr = 0; nCtr < users.size(); nCtr++){
             System.out.println("===== User " + users.get(nCtr).getId() + " =====");
             System.out.println(" Username: " + users.get(nCtr).getUsername());

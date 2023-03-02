@@ -244,6 +244,22 @@ public class Frame extends javax.swing.JFrame {
         this.setVisible(true);
     }
     
+    public void mainNav(int role){
+        if(role == 5){  
+            contentView.show(Content, "adminHomePnl");
+        }
+        if(role == 4){
+            contentView.show(Content, "managerHomePnl");
+        }
+        if(role == 3){  
+            contentView.show(Content, "staffHomePnl");     
+        }
+        if(role == 2){
+            contentView.show(Content, "clientHomePnl");
+        }
+        frameView.show(Container, "homePnl");
+    }
+    
     public void mainNav(){
         frameView.show(Container, "homePnl");
     }
@@ -256,8 +272,8 @@ public class Frame extends javax.swing.JFrame {
         frameView.show(Container, "registerPnl");
     }
     
-    public void registerAction(String username, String password, String confpass){
-        main.sqlite.addUser(username, password);
+    public void registerAction(String username, String password, String confpass, int role){
+        main.sqlite.addUser(username, password, role);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

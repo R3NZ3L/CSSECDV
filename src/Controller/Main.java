@@ -22,7 +22,8 @@ public class Main {
     public void init(){
         // Initialize a driver object
         sqlite = new SQLite();
-
+        
+        /*
         // Create a database
         sqlite.createNewDatabase();
         
@@ -98,7 +99,8 @@ public class Main {
             System.out.println(" Role: " + users.get(nCtr).getRole());
             System.out.println(" Locked: " + users.get(nCtr).getLocked());
         }
-        
+        */
+
         // Initialize User Interface
         Frame frame = new Frame();
         frame.init(this);

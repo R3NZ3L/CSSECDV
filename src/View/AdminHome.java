@@ -26,6 +26,8 @@ public class AdminHome extends javax.swing.JPanel {
     public MgmtProduct mgmtProduct;
     public MgmtUser mgmtUser;
     
+    private String currUsername;
+    
     private CardLayout contentView = new CardLayout();
     
     public AdminHome() {
@@ -33,9 +35,9 @@ public class AdminHome extends javax.swing.JPanel {
     }
     
     public void init(SQLite sqlite){
-        mgmtHistory = new MgmtHistory(sqlite);
+        mgmtHistory = new MgmtHistory(sqlite, 5, this.currUsername);
         mgmtLogs = new MgmtLogs(sqlite);
-        mgmtProduct = new MgmtProduct(sqlite);
+        mgmtProduct = new MgmtProduct(sqlite, 5);
         mgmtUser = new MgmtUser(sqlite);
         
         Content.setLayout(contentView);
@@ -50,6 +52,10 @@ public class AdminHome extends javax.swing.JPanel {
 //        usersBtn.setVisible(false);
 //        productsBtn.setVisible(false);
 //        logsBtn.setVisible(false);
+    }
+    
+    public void setCurrUsername(String username) {
+        this.currUsername = username;
     }
     
     public void showPnl(String panelName){

@@ -255,7 +255,7 @@ public class Frame extends javax.swing.JFrame {
         this.setVisible(true);
     }
     
-    public void mainNav(int role){
+    public void mainNav(int role, String username){
         if(role == 5){  
             managerBtn.setVisible(false);
             managerBtn.setEnabled(false);
@@ -266,6 +266,7 @@ public class Frame extends javax.swing.JFrame {
             clientBtn.setVisible(false); 
             clientBtn.setEnabled(false);
             contentView.show(Content, "adminHomePnl");
+            this.adminHomePnl.setCurrUsername(username);
         }
         if(role == 4){
             adminBtn.setVisible(false);
@@ -277,6 +278,7 @@ public class Frame extends javax.swing.JFrame {
             clientBtn.setVisible(false); 
             clientBtn.setEnabled(false); 
             contentView.show(Content, "managerHomePnl");
+            this.managerHomePnl.setCurrUsername(username);
         }
         if(role == 3){
             adminBtn.setVisible(false);
@@ -287,7 +289,8 @@ public class Frame extends javax.swing.JFrame {
             
             clientBtn.setVisible(false); 
             clientBtn.setEnabled(false);
-            contentView.show(Content, "staffHomePnl");     
+            contentView.show(Content, "staffHomePnl");   
+            this.staffHomePnl.setCurrUsername(username);
         }
         if(role == 2){
             adminBtn.setVisible(false);
@@ -299,6 +302,7 @@ public class Frame extends javax.swing.JFrame {
             staffBtn.setVisible(false);
             staffBtn.setEnabled(false);
             contentView.show(Content, "clientHomePnl");
+            this.clientHomePnl.setCurrUsername(username);
        }
         frameView.show(Container, "homePnl");
     }

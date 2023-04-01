@@ -122,7 +122,7 @@ public class Login extends javax.swing.JPanel {
                 usernameFld.setText("");
                 passwordFld.setText("");
                 jLabel2.setText("");
-                frame.mainNav(role);   
+                frame.mainNav(role, usernameFld.getText()); //Passes username for History tab
             } else {
                 usernameFld.setText("");
                 passwordFld.setText("");

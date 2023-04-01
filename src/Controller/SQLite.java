@@ -198,8 +198,13 @@ public class SQLite {
     }
     
     
-    public ArrayList<History> getHistory(){
+    public ArrayList<History> getHistory(int role, String username){
         String sql = "SELECT id, username, name, stock, timestamp FROM history";
+        
+        if (role == 2) {
+            sql += "WHERE username = '" + username + "'";
+        }
+        
         ArrayList<History> histories = new ArrayList<History>();
         
         try (Connection conn = DriverManager.getConnection(driverURL);

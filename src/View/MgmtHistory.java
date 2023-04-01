@@ -21,8 +21,11 @@ public class MgmtHistory extends javax.swing.JPanel {
 
     public SQLite sqlite;
     public DefaultTableModel tableModel;
+    public int role;
     
-    public MgmtHistory(SQLite sqlite) {
+    private String currUsername;
+    
+    public MgmtHistory(SQLite sqlite, int role, String username) {
         initComponents();
         this.sqlite = sqlite;
         tableModel = (DefaultTableModel)table.getModel();
@@ -34,6 +37,13 @@ public class MgmtHistory extends javax.swing.JPanel {
         table.getColumnModel().getColumn(4).setCellRenderer(rightAlign);
         table.getColumnModel().getColumn(5).setCellRenderer(rightAlign);
         
+        this.role = role;
+        this.currUsername = username;
+        
+        if (this.role == 2) {
+            searchBtn.setVisible(false);
+            searchBtn.setEnabled(false);
+        }
 //        UNCOMMENT TO DISABLE BUTTONS
 //        searchBtn.setVisible(false);
 //        reportBtn.setVisible(false);
@@ -46,7 +56,7 @@ public class MgmtHistory extends javax.swing.JPanel {
         }
         
 //      LOAD CONTENTS
-        ArrayList<History> history = sqlite.getHistory();
+        ArrayList<History> history = sqlite.getHistory(this.role, this.currUsername);
         for(int nCtr = 0; nCtr < history.size(); nCtr++){
             Product product = sqlite.getProduct(history.get(nCtr).getName());
             tableModel.addRow(new Object[]{
@@ -175,7 +185,7 @@ public class MgmtHistory extends javax.swing.JPanel {
             }
 
 //          LOAD CONTENTS
-            ArrayList<History> history = sqlite.getHistory();
+            ArrayList<History> history = sqlite.getHistory(this.role, this.currUsername);
             for(int nCtr = 0; nCtr < history.size(); nCtr++){
                 if(searchFld.getText().contains(history.get(nCtr).getUsername()) || 
                    history.get(nCtr).getUsername().contains(searchFld.getText()) || 

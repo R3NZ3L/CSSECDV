@@ -26,6 +26,8 @@ public class ClientHome extends javax.swing.JPanel {
     public MgmtProduct mgmtProduct;
     public MgmtUser mgmtUser;
     
+    private String currUsername;
+    
     private CardLayout contentView = new CardLayout();
     
     public ClientHome() {
@@ -33,9 +35,9 @@ public class ClientHome extends javax.swing.JPanel {
     }
     
     public void init(SQLite sqlite){
-        mgmtHistory = new MgmtHistory(sqlite);
+        mgmtHistory = new MgmtHistory(sqlite, 2, this.currUsername);
         mgmtLogs = new MgmtLogs(sqlite);
-        mgmtProduct = new MgmtProduct(sqlite);
+        mgmtProduct = new MgmtProduct(sqlite, 2);
         mgmtUser = new MgmtUser(sqlite);
     
         Content.setLayout(contentView);
@@ -47,9 +49,13 @@ public class ClientHome extends javax.swing.JPanel {
         
 //        UNCOMMENT TO DISABLE BUTTONS
 //        historyBtn.setVisible(false);
-//        usersBtn.setVisible(false);
+        usersBtn.setVisible(false);
 //        productsBtn.setVisible(false);
-//        logsBtn.setVisible(false);
+        logsBtn.setVisible(false);
+    }
+    
+    public void setCurrUsername(String username) {
+        this.currUsername = username;
     }
     
     public void showPnl(String panelName){
@@ -154,7 +160,7 @@ public class ClientHome extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void usersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersBtnActionPerformed
         mgmtUser.init();
         usersBtn.setForeground(Color.red);

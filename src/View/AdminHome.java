@@ -35,7 +35,7 @@ public class AdminHome extends javax.swing.JPanel {
     }
     
     public void init(SQLite sqlite){
-        mgmtHistory = new MgmtHistory(sqlite, 5, this.currUsername);
+        mgmtHistory = new MgmtHistory(sqlite, 5);
         mgmtLogs = new MgmtLogs(sqlite);
         mgmtProduct = new MgmtProduct(sqlite, 5);
         mgmtUser = new MgmtUser(sqlite);
@@ -48,9 +48,9 @@ public class AdminHome extends javax.swing.JPanel {
         Content.add(this.mgmtLogs, "mgmtLogs");
         
 //        UNCOMMENT TO DISABLE BUTTONS
-//        historyBtn.setVisible(false);
+        historyBtn.setVisible(false);
 //        usersBtn.setVisible(false);
-//        productsBtn.setVisible(false);
+        productsBtn.setVisible(false);
 //        logsBtn.setVisible(false);
     }
     
@@ -171,7 +171,7 @@ public class AdminHome extends javax.swing.JPanel {
     }//GEN-LAST:event_usersBtnActionPerformed
 
     private void productsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productsBtnActionPerformed
-        mgmtProduct.init();
+        mgmtProduct.init(this.currUsername);
         usersBtn.setForeground(Color.black);
         productsBtn.setForeground(Color.red);
         historyBtn.setForeground(Color.black);
@@ -180,7 +180,7 @@ public class AdminHome extends javax.swing.JPanel {
     }//GEN-LAST:event_productsBtnActionPerformed
 
     private void historyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyBtnActionPerformed
-        mgmtHistory.init();
+        mgmtHistory.init(this.currUsername);
         usersBtn.setForeground(Color.black);
         productsBtn.setForeground(Color.black);
         historyBtn.setForeground(Color.red);

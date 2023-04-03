@@ -147,6 +147,8 @@ public class SQLite {
     }
     
     public void addHistory(String username, String name, int stock, String timestamp) {
+        System.out.println("[SQLite/addHistory] Username: " + username);
+        
         String sql = "INSERT INTO history(username,name,stock,timestamp) VALUES('" + username + "','" + name + "','" + stock + "','" + timestamp + "')";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
@@ -199,10 +201,12 @@ public class SQLite {
     
     
     public ArrayList<History> getHistory(int role, String username){
+        System.out.println("[SQLite/getHistory] Username: " + username);
+        
         String sql = "SELECT id, username, name, stock, timestamp FROM history";
         
         if (role == 2) {
-            sql += "WHERE username = '" + username + "'";
+            sql += " WHERE username = '" + username + "'";
         }
         
         ArrayList<History> histories = new ArrayList<History>();
@@ -321,5 +325,26 @@ public class SQLite {
             System.out.print(ex);
         }
         return product;
+    }
+    
+    public void purchaseProduct(String username, String name, int numPurchased, String timestamp) {
+        Product product = this.getProduct(name);
+        
+        System.out.println("[SQLite/purchaseProduct] Username: " + username);
+        
+        if ((product.getStock() - numPurchased) >= 0) {
+            // Reduce stock by number of products purchased
+            String sql = "UPDATE product SET stock = stock - " + numPurchased + " WHERE name='" + name + "';";
+            try (Connection conn = DriverManager.getConnection(driverURL);
+                Statement stmt = conn.createStatement()){
+                stmt.execute(sql);
+                // Add transaction to history
+                this.addHistory(username, name, numPurchased, timestamp);
+            } catch (Exception ex) {
+                System.out.print(ex);
+            }
+        }
+        
+        
     }
 }

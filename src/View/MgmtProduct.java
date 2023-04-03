@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author beepxD
@@ -21,22 +24,29 @@ public class MgmtProduct extends javax.swing.JPanel {
 
     public SQLite sqlite;
     public DefaultTableModel tableModel;
-    public int role;
+    
+    private int role;
+    private String currUsername;
     
     public MgmtProduct(SQLite sqlite, int role) {
         initComponents();
         this.sqlite = sqlite;
         tableModel = (DefaultTableModel)table.getModel();
         table.getTableHeader().setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 14));
+        
         this.role = role;
         
         if (this.role == 2) {
-          addBtn.setVisible(false);
-          addBtn.setEnabled(false);
-          editBtn.setVisible(false);
-          editBtn.setEnabled(false);
-          deleteBtn.setVisible(false);
-          deleteBtn.setEnabled(false);
+            addBtn.setVisible(false);
+            addBtn.setEnabled(false);
+            editBtn.setVisible(false);
+            editBtn.setEnabled(false);
+            deleteBtn.setVisible(false);
+            deleteBtn.setEnabled(false);
+        }
+        else if (this.role == 3 || this.role == 4) {
+            purchaseBtn.setVisible(false);
+            purchaseBtn.setEnabled(false);
         }
 //        UNCOMMENT TO DISABLE BUTTONS
 //        purchaseBtn.setVisible(false);
@@ -45,7 +55,9 @@ public class MgmtProduct extends javax.swing.JPanel {
 //        deleteBtn.setVisible(false);
     }
 
-    public void init(){
+    public void init(String username){
+        this.currUsername = username;
+        
         //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
             tableModel.removeRow(0);
@@ -59,6 +71,8 @@ public class MgmtProduct extends javax.swing.JPanel {
                 products.get(nCtr).getStock(), 
                 products.get(nCtr).getPrice()});
         }
+        
+        // System.out.println("[MgmtProduct/init] Username: " + this.currUsername);
     }
     
     public void designer(JTextField component, String text){
@@ -195,7 +209,15 @@ public class MgmtProduct extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, message, "PURCHASE PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
             if (result == JOptionPane.OK_OPTION) {
-                System.out.println(stockFld.getText());
+                // System.out.println(stockFld.getText());
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String timestamp = df.format(new Date());
+                String name = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                int numPurchased = Integer.parseInt(stockFld.getText());
+                
+                System.out.println("[MgmtProduct/purchaseProduct] Username: " + this.currUsername);
+                
+                this.sqlite.purchaseProduct(this.currUsername, name, numPurchased, timestamp);
             }
         }
     }//GEN-LAST:event_purchaseBtnActionPerformed

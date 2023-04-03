@@ -25,7 +25,7 @@ public class MgmtHistory extends javax.swing.JPanel {
     
     private String currUsername;
     
-    public MgmtHistory(SQLite sqlite, int role, String username) {
+    public MgmtHistory(SQLite sqlite, int role) {
         initComponents();
         this.sqlite = sqlite;
         tableModel = (DefaultTableModel)table.getModel();
@@ -38,7 +38,6 @@ public class MgmtHistory extends javax.swing.JPanel {
         table.getColumnModel().getColumn(5).setCellRenderer(rightAlign);
         
         this.role = role;
-        this.currUsername = username;
         
         if (this.role == 2) {
             searchBtn.setVisible(false);
@@ -49,7 +48,9 @@ public class MgmtHistory extends javax.swing.JPanel {
 //        reportBtn.setVisible(false);
     }
 
-    public void init(){
+    public void init(String username){
+        this.currUsername = username;
+        
 //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
             tableModel.removeRow(0);
@@ -68,6 +69,8 @@ public class MgmtHistory extends javax.swing.JPanel {
                 history.get(nCtr).getTimestamp()
             });
         }
+        
+        System.out.println("[MgmtHistory/init] Username: " + this.currUsername);
     }
     
     public void designer(JTextField component, String text){
@@ -207,7 +210,7 @@ public class MgmtHistory extends javax.swing.JPanel {
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void reloadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadBtnActionPerformed
-        init();
+        init(this.currUsername);
     }//GEN-LAST:event_reloadBtnActionPerformed
 
 

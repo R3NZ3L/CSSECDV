@@ -24,6 +24,20 @@ public class Main {
         sqlite = new SQLite();
         
         /*
+        sqlite.dropHistoryTable();
+        sqlite.createHistoryTable();
+        sqlite.addHistory("admin", "Antivirus", 1, "2019-04-03 14:30:00.000");
+        sqlite.addHistory("manager", "Firewall", 1, "2019-04-03 14:30:01.000");
+        sqlite.addHistory("staff", "Scanner", 1, "2019-04-03 14:30:02.000");
+        
+        sqlite.dropProductTable();
+        sqlite.createProductTable();
+        sqlite.addProduct("Antivirus", 5, 500.0);
+        sqlite.addProduct("Firewall", 3, 1000.0);
+        sqlite.addProduct("Scanner", 10, 100.0);
+        // */
+        
+        /*
         // Create a database
         sqlite.createNewDatabase();
         

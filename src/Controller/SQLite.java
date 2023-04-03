@@ -255,13 +255,13 @@ public class SQLite {
     }
     // */
     
-    public ArrayList<History> getHistory(int role, String username, int filtered){
+    public ArrayList<History> getHistory(int role, String searchText, int filtered){
         String sql = "SELECT id, username, name, stock, timestamp FROM history";
         
         // Filtered list applies to Client-level users by default
         // Filtering on Manager-level is only when a username is specified
         if (role == 2 && (role == 4 && filtered == 1)) {
-            sql += " WHERE username = '" + username + "'";
+            sql += " WHERE username = '" + searchText + "' OR name = '" + searchText + "';";
         } 
         
         ArrayList<History> histories = new ArrayList<History>();

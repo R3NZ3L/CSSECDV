@@ -20,10 +20,14 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("Database database.db created.");
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/createNewDatabase] Database database.db created.");
+                }
             }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/createNewDatabase] " + ex);
+            }
         }
     }
     
@@ -39,9 +43,13 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table history in database.db created.");
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/createHistoryTable] Table history in database.db created.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/createHistoryTable] " + ex);
+            }
         }
     }
     
@@ -57,9 +65,13 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table logs in database.db created.");
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/createLogsTable] Table logs in database.db created.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/createLogsTable] " + ex);
+            }
         }
     }
      
@@ -74,9 +86,14 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table product in database.db created.");
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/createProductTable] Table product in database.db created.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/createProductTable] " + ex);
+            }
+            
         }
     }
      
@@ -92,9 +109,13 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table users in database.db created.");
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/createUserTable] Table users in database.db created.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/createUserTable] " + ex);
+            }
         }
     }
     
@@ -104,9 +125,13 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table history in database.db dropped.");
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/dropHistoryTable] Table history in database.db dropped.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println(ex);
+            }
         }
     }
     
@@ -116,9 +141,13 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table logs in database.db dropped.");
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/dropLogsTable] Table logs in database.db dropped.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/dropLogsTable] " + ex);
+            }
         }
     }
     
@@ -128,9 +157,13 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table product in database.db dropped.");
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/dropProductTable] Table product in database.db dropped.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/dropProductTable] " + ex);
+            }
         }
     }
     
@@ -140,22 +173,29 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table users in database.db dropped.");
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/dropUserTable] Table users in database.db dropped.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/dropUserTable] " + ex);
+            }
         }
     }
     
     public void addHistory(String username, String name, int stock, String timestamp) {
-        System.out.println("[SQLite/addHistory] Username: " + username);
-        
         String sql = "INSERT INTO history(username,name,stock,timestamp) VALUES('" + username + "','" + name + "','" + stock + "','" + timestamp + "')";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()){
             stmt.execute(sql);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addHistory] Added [" + username + "] entry in purchase history.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addHistory] " + ex);
+            }
         }
     }
     
@@ -165,8 +205,13 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()){
             stmt.execute(sql);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addLogs] Added [" + username + "] log entry.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addLogs] " + ex);
+            }
         }
     }
     
@@ -176,18 +221,26 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()){
             stmt.execute(sql);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addProduct] Added [" + name + "] to product list.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addProduct] " + ex);
+            }
         }
     }
     
+    /* See new addUser()
     public void addUser(String username, String password) {
         String sql = "INSERT INTO users(username,password) VALUES('" + username + "','" + password + "')";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()){
             stmt.execute(sql);
-            
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addUser] Added [" + username + "] to users list.");
+            }
 //      PREPARED STATEMENT EXAMPLE
 //      String sql = "INSERT INTO users(username,password) VALUES(?,?)";
 //      PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -195,17 +248,18 @@ public class SQLite {
 //      pstmt.setString(2, password);
 //      pstmt.executeUpdate();
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addUser] " + ex);
+            }
         }
     }
-    
+    // */
     
     public ArrayList<History> getHistory(int role, String username, int filtered){
-        System.out.println("[SQLite/getHistory] Username: " + username);
-        
         String sql = "SELECT id, username, name, stock, timestamp FROM history";
         
-        // Finding a specific user applies to Client-level users by default
+        // Filtered list applies to Client-level users by default
+        // Filtering on Manager-level is only when a username is specified
         if (role == 2 && (role == 4 && filtered == 1)) {
             sql += " WHERE username = '" + username + "'";
         } 
@@ -224,8 +278,15 @@ public class SQLite {
                                    rs.getString("timestamp")));
             }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/getHistory] " + ex);
+            }
         }
+        
+        if (this.DEBUG_MODE == 1) {
+            System.out.println("[SQLite/getHistory] Records from history table successfully retrieved.");
+        }
+        
         return histories;
     }
     
@@ -245,8 +306,15 @@ public class SQLite {
                                    rs.getString("timestamp")));
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/getLogs] " + ex);
+            }
         }
+        
+        if (this.DEBUG_MODE == 1) {
+            System.out.println("[SQLite/getLogs] Records from logs table successfully retrieved.");
+        }
+        
         return logs;
     }
     
@@ -260,6 +328,7 @@ public class SQLite {
             ResultSet rs = stmt.executeQuery(sql)){
             
             while (rs.next()) {
+                // Filter out products marked as 'deleted'
                 String name = rs.getString("name");
                 if (name.charAt(name.length() - 1) != '*') {
                 products.add(new Product(rs.getInt("id"),
@@ -270,8 +339,15 @@ public class SQLite {
                 
             }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/getProduct] " + ex);
+            }
         }
+        
+        if (this.DEBUG_MODE == 1) {
+            System.out.println("[SQLite/getProduct] Records from products table successfully retrieved.");
+        }
+        
         return products;
     }
     
@@ -284,13 +360,26 @@ public class SQLite {
             ResultSet rs = stmt.executeQuery(sql)){
             
             while (rs.next()) {
-                users.add(new User(rs.getInt("id"),
+                // Filter out users marked as 'deleted'
+                String username = rs.getString("username");
+                if (username.charAt(username.length() - 1) != '*') {
+                    users.add(new User(rs.getInt("id"),
                                    rs.getString("username"),
                                    rs.getString("password"),
                                    rs.getInt("role"),
                                    rs.getInt("locked")));
+                }
             }
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/getUsers] " + ex);
+            }
+        }
+        
+        if (this.DEBUG_MODE == 1) {
+            System.out.println("[SQLite/getUsers] Records from users table successfully retrieved.");
+        }
+        
         return users;
     }
     
@@ -300,12 +389,17 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()){
             stmt.execute(sql);
-            
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addUser] Added [" + username + "] to users table.");
+            }
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/addUser] " + ex);
+            }
         }
     }
     
+    /* See deleteUser() method
     public void removeUser(String username) {
         String sql = "DELETE FROM users WHERE username='" + username + "';";
 
@@ -317,6 +411,7 @@ public class SQLite {
             System.out.print(ex);
         }
     }
+    // */
     
     public Product getProduct(String name){
         String sql = "SELECT name, stock, price FROM product WHERE name='" + name + "';";
@@ -328,8 +423,15 @@ public class SQLite {
                                    rs.getInt("stock"),
                                    rs.getFloat("price"));
         } catch (Exception ex) {
-            System.out.print(ex);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/getProduct] " + ex);
+            }
         }
+        
+        if (this.DEBUG_MODE == 1) {
+            System.out.println("[SQLite/getProduct] Successfuly retrieved [" + name + "].");
+        }
+        
         return product;
     }
     
@@ -342,8 +444,13 @@ public class SQLite {
             try (Connection conn = DriverManager.getConnection(driverURL);
                 Statement stmt = conn.createStatement()){
                 stmt.execute(sql);
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/purchaseProduct] Successfully purchased " + numPurchased + "of [" + name + "].");
+                }
             } catch (Exception ex) {
-                System.out.print(ex);
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/purchaseProduct] " + ex);
+                }
             }
         }
     }    
@@ -356,8 +463,13 @@ public class SQLite {
             try (Connection conn = DriverManager.getConnection(driverURL);
                 Statement stmt = conn.createStatement()){
                 stmt.execute(sql);
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/editProduct] Product [" + oldName + "] successfully modified.");
+                }
             } catch (Exception ex) {
-                System.out.print(ex);
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/editProduct] " + ex);
+                }
             }
         }
     }
@@ -366,18 +478,116 @@ public class SQLite {
         Product product = this.getProduct(name);
         
         String newName = name + '*';
-        System.out.println("[SQLite/deleteProduct] Deleted Product Name: " + newName);
         
         if (product != null) {
             String sql = "UPDATE product SET name = '" + newName + "' WHERE name = '" + name + "';";
             try (Connection conn = DriverManager.getConnection(driverURL);
                 Statement stmt = conn.createStatement()){
                 stmt.execute(sql);
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/deleteProduct] Product [" + name + "] marked for deletion.");
+                }
             } catch (Exception ex) {
-                System.out.print(ex);
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/deleteProduct] " + ex);
+                }
             }
         }
     }
     
+    public void editUserRole(String username, int newRole) {
+        String sql = "UPDATE users SET role = " + newRole + " WHERE username = '" + username + "';";
+        
+        try (Connection conn = DriverManager.getConnection(driverURL);
+            Statement stmt = conn.createStatement()){
+            stmt.execute(sql);
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/editUserRole] Successful role change for User [" + username + "].");
+            }
+        } catch (Exception ex) {
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/editUserRole]" + ex);
+            }
+        }
+    }
+    
+    public User getUser(String username){
+        String sql = "SELECT username, password FROM users WHERE username='" + username + "';";
+        User user = null;
+        try (Connection conn = DriverManager.getConnection(driverURL);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+            user = new User(rs.getString("username"), rs.getString("password"));
+        } catch (Exception ex) {
+            if (this.DEBUG_MODE == 1) {
+                System.out.println("[SQLite/getUser] " + ex);
+            }
+        }
+        
+        if (this.DEBUG_MODE == 1) {
+            System.out.println("[SQLite/getUser] Succesfully retrieved User [" + username + "].");
+        }
+        
+        return user;
+    }
+    
+    public void deleteUser(String username) {
+        User user = this.getUser(username);
+        
+        String newUsername = username + '*';
+        
+        if (user != null) {
+            String sql = "UPDATE users SET username = '" + newUsername + "', role = 1 WHERE username = '" + username + "';";
+            try (Connection conn = DriverManager.getConnection(driverURL);
+                Statement stmt = conn.createStatement()){
+                stmt.execute(sql);
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/deleteUser] User [" + username + "] marked for deletion.");
+                }
+            } catch (Exception ex) {
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/deleteUser] " + ex);
+                }
+            }
+        }
+    }
+    
+    public void setLockState(String username, int newLockState) {
+        User user = this.getUser(username);
+        
+        if (user != null) {
+            String sql = "UPDATE users SET locked = " + newLockState + " WHERE username = '" + username + "';";
+            try (Connection conn = DriverManager.getConnection(driverURL);
+                Statement stmt = conn.createStatement()){
+                stmt.execute(sql);
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/setLockState] Lock state changed for User [" + username + "].");
+                }
+            } catch (Exception ex) {
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/setLockState] " + ex);
+                }
+            }
+        }
+    }
+    
+    public void changePassword(String username, String newPass) {
+        User user = this.getUser(username);
+        
+        if (user != null) {
+            String sql = "UPDATE users SET password = '" + newPass + "' WHERE username = '" + username + "';";
+            try (Connection conn = DriverManager.getConnection(driverURL);
+                Statement stmt = conn.createStatement()){
+                stmt.execute(sql);
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/changePassword] Changed password for User [" + username + "].");
+                }
+            } catch (Exception ex) {
+                if (this.DEBUG_MODE == 1) {
+                    System.out.println("[SQLite/changePassword] " + ex);
+                }
+            }
+        }
+    }
     
 }

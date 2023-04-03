@@ -23,7 +23,7 @@ public class Main {
         // Initialize a driver object
         sqlite = new SQLite();
         
-        /*
+        /* RESET DATABASE
         sqlite.dropHistoryTable();
         sqlite.createHistoryTable();
         sqlite.addHistory("admin", "Antivirus", 1, "2019-04-03 14:30:00.000");
@@ -42,7 +42,14 @@ public class Main {
         sqlite.addLogs("NOTICE", "manager", "User creation successful", new Timestamp(new Date().getTime()).toString());
         sqlite.addLogs("NOTICE", "admin", "User creation successful", new Timestamp(new Date().getTime()).toString());
         
-        // */
+        sqlite.dropUserTable();
+        sqlite.createUserTable();
+        sqlite.addUser("admin", "qwerty1234" , 5);
+        sqlite.addUser("manager", "qwerty1234", 4);
+        sqlite.addUser("staff", "qwerty1234", 3);
+        sqlite.addUser("client1", "qwerty1234", 2);
+        sqlite.addUser("client2", "qwerty1234", 2);
+        // RESET DATABASE */
         
         /*
         // Create a database

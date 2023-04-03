@@ -256,8 +256,6 @@ public class Frame extends javax.swing.JFrame {
     }
     
     public void mainNav(int role, String username){
-        System.out.println("[Frame/mainNav] Username: " + username);
-        
         if(role == 5){  
             managerBtn.setVisible(false);
             managerBtn.setEnabled(false);

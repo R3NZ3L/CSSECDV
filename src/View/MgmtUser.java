@@ -16,6 +16,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author beepxD
@@ -24,6 +26,8 @@ public class MgmtUser extends javax.swing.JPanel {
 
     public SQLite sqlite;
     public DefaultTableModel tableModel;
+    
+    private String currUsername;
     
     public MgmtUser(SQLite sqlite) {
         initComponents();
@@ -38,7 +42,9 @@ public class MgmtUser extends javax.swing.JPanel {
 //        chgpassBtn.setVisible(false);
     }
     
-    public void init(){
+    public void init(String username){
+        this.currUsername = username;
+        
         //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
             tableModel.removeRow(0);
@@ -189,8 +195,17 @@ public class MgmtUser extends javax.swing.JPanel {
                 "EDIT USER ROLE", JOptionPane.QUESTION_MESSAGE, null, options, options[(int)tableModel.getValueAt(table.getSelectedRow(), 2) - 1]);
             
             if(result != null){
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
-                System.out.println(result.charAt(0));
+                // System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                // System.out.println(result.charAt(0));
+                String username = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                int newRole = Integer.parseInt(String.valueOf(result.charAt(0)));
+                
+                String desc = "Admin [" + this.currUsername + "] changed User [" + username + "] role";
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String timestamp = df.format(new Date());
+                
+                this.sqlite.editUserRole(username, newRole);
+                this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }
         }
     }//GEN-LAST:event_editRoleBtnActionPerformed
@@ -200,7 +215,15 @@ public class MgmtUser extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "DELETE USER", JOptionPane.YES_NO_OPTION);
             
             if (result == JOptionPane.YES_OPTION) {
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                // System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                String username = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                
+                String desc = "Admin [" + this.currUsername + "] deleted User [" + username + "]";
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String timestamp = df.format(new Date());
+                
+                this.sqlite.deleteUser(username);
+                this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
@@ -212,10 +235,30 @@ public class MgmtUser extends javax.swing.JPanel {
                 state = "unlock";
             }
             
-            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to " + state + " " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "DELETE USER", JOptionPane.YES_NO_OPTION);
+            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to " + state + " " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "LOCK USER", JOptionPane.YES_NO_OPTION);
             
             if (result == JOptionPane.YES_OPTION) {
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                // System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                String username = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                int newLockState = -1;
+                if (state.equals("lock")) {
+                    newLockState = 1;
+                } else {
+                    newLockState = 0;
+                }
+                
+                String desc = "Admin [" + this.currUsername + "] ";
+                if (newLockState == 1) {
+                    desc += "locked ";
+                } else {
+                    desc += "unlocked ";
+                }
+                desc += "User [" + username + "]";
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String timestamp = df.format(new Date());
+                
+                this.sqlite.setLockState(username, newLockState);
+                this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }
         }
     }//GEN-LAST:event_lockBtnActionPerformed
@@ -234,8 +277,22 @@ public class MgmtUser extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, message, "CHANGE PASSWORD", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
             
             if (result == JOptionPane.OK_OPTION) {
-                System.out.println(password.getText());
-                System.out.println(confpass.getText());
+                // System.out.println(password.getText());
+                // System.out.println(confpass.getText());
+                String username = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                String newPass = "";
+                if (password.getText().equals(confpass.getText())) {
+                    newPass = password.getText();
+                    
+                    String desc = "Admin [" + this.currUsername + "] changed password of User [" + username + "]";
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                    String timestamp = df.format(new Date());
+                    
+                    this.sqlite.changePassword(username, newPass);
+                    this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
+                } else {
+                    System.out.println("[SQLite/chgpassBtnActionPerformed] Passwords did not match");
+                }
             }
         }
     }//GEN-LAST:event_chgpassBtnActionPerformed

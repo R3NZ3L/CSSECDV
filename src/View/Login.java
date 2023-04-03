@@ -109,16 +109,18 @@ public class Login extends javax.swing.JPanel {
             ArrayList<User> userList = sqlite.getUsers();
             Boolean valid = false;
             int role = 0;
+            int lock = -1;
             for(int i = 0; i < userList.size(); i++){
                 if(userList.get(i).getUsername().equals(usernameFld.getText()) && 
                    userList.get(i).getPassword().equals(String.valueOf(passwordFld.getPassword())) &&
                    userList.get(i).getRole() > 1){
                     valid = true;
                     role = userList.get(i).getRole();
+                    lock = userList.get(i).getLocked();
                     i = userList.size();
                 }
             }
-            if(valid == true){
+            if(valid == true && lock == 0){
                 String username = usernameFld.getText();
                 usernameFld.setText("");
                 passwordFld.setText("");

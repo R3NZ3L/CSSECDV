@@ -269,7 +269,6 @@ public class MgmtProduct extends javax.swing.JPanel {
             JTextField priceFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 2) + "");
             
             String oldName = nameFld.getText();
-            // System.out.println("[MgmtProduct/editBtnActionPerformed] Old Product Name: " + oldName);
             
             designer(nameFld, "PRODUCT NAME");
             designer(stockFld, "PRODUCT STOCK");
@@ -299,8 +298,6 @@ public class MgmtProduct extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
-                // System.out.println("[MgmtProduct/editBtnActionPerformed] New Product Name: " + newName);
-                
                 this.sqlite.editProduct(oldName, newName, newStock, newPrice);
                 this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }
@@ -314,7 +311,6 @@ public class MgmtProduct extends javax.swing.JPanel {
             if (result == JOptionPane.YES_OPTION) {
                 // System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
                 String name = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
-                // System.out.println("[MgmtProduct/deleteBtnActionPerformed] Product Name: " + name);
                 
                 String desc = "";
                 if (role == 3) {
@@ -326,7 +322,6 @@ public class MgmtProduct extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
-                // TODO: deleteProduct() method in SQLite.java
                 this.sqlite.deleteProduct(name);
                 this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }

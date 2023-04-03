@@ -7,7 +7,9 @@ package View;
 
 import Controller.SQLite;
 import Model.Logs;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,6 +20,8 @@ public class MgmtLogs extends javax.swing.JPanel {
 
     public SQLite sqlite;
     public DefaultTableModel tableModel;
+    
+    private String currUsername;
     
     public MgmtLogs(SQLite sqlite) {
         initComponents();
@@ -30,7 +34,9 @@ public class MgmtLogs extends javax.swing.JPanel {
 //        debugBtn.setVisible(false);
     }
 
-    public void init(){
+    public void init(String username){
+        this.currUsername = username;
+        
         //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
             tableModel.removeRow(0);
@@ -135,14 +141,24 @@ public class MgmtLogs extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        this.sqlite.dropLogsTable();
+        this.sqlite.createLogsTable();
         
+        String desc = "Admin [" + this.currUsername + "] cleared the logs";
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String timestamp = df.format(new Date());
+        
+        this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void debugBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugBtnActionPerformed
-        if(sqlite.DEBUG_MODE == 1)
+        if(sqlite.DEBUG_MODE == 1) {
+            System.out.println("Disabling DEBUG MODE...");
             sqlite.DEBUG_MODE = 0;
-        else
+        } else {
+            System.out.println("Enabling DEBUG MODE...");
             sqlite.DEBUG_MODE = 1;
+        }
     }//GEN-LAST:event_debugBtnActionPerformed
 
 

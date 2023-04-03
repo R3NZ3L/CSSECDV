@@ -162,7 +162,7 @@ public class AdminHome extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersBtnActionPerformed
-        mgmtUser.init();
+        mgmtUser.init(this.currUsername);
         usersBtn.setForeground(Color.red);
         productsBtn.setForeground(Color.black);
         historyBtn.setForeground(Color.black);
@@ -189,7 +189,7 @@ public class AdminHome extends javax.swing.JPanel {
     }//GEN-LAST:event_historyBtnActionPerformed
 
     private void logsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsBtnActionPerformed
-        mgmtLogs.init();
+        mgmtLogs.init(this.currUsername);
         usersBtn.setForeground(Color.black);
         productsBtn.setForeground(Color.black);
         historyBtn.setForeground(Color.black);

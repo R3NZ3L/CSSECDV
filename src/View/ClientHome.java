@@ -162,7 +162,7 @@ public class ClientHome extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     
     private void usersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersBtnActionPerformed
-        mgmtUser.init();
+        mgmtUser.init(this.currUsername);
         usersBtn.setForeground(Color.red);
         productsBtn.setForeground(Color.black);
         historyBtn.setForeground(Color.black);
@@ -177,8 +177,6 @@ public class ClientHome extends javax.swing.JPanel {
         historyBtn.setForeground(Color.black);
         logsBtn.setForeground(Color.black);
         contentView.show(Content, "mgmtProduct");
-        
-        // System.out.println("[ClientHome/productsBtnActionPerformed] Username: " + this.currUsername);
     }//GEN-LAST:event_productsBtnActionPerformed
 
     private void historyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyBtnActionPerformed
@@ -188,19 +186,17 @@ public class ClientHome extends javax.swing.JPanel {
         historyBtn.setForeground(Color.red);
         logsBtn.setForeground(Color.black);
         contentView.show(Content, "mgmtHistory");
-        
-        // System.out.println("[ClientHome/historyBtnActionPerformed] Username: " + this.currUsername);
     }//GEN-LAST:event_historyBtnActionPerformed
 
     private void logsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsBtnActionPerformed
-        mgmtLogs.init();
+        mgmtLogs.init(this.currUsername);
         usersBtn.setForeground(Color.black);
         productsBtn.setForeground(Color.black);
         historyBtn.setForeground(Color.black);
         logsBtn.setForeground(Color.red);
         contentView.show(Content, "mgmtLogs");
     }//GEN-LAST:event_logsBtnActionPerformed
-    
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

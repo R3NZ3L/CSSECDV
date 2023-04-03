@@ -210,14 +210,15 @@ public class MgmtProduct extends javax.swing.JPanel {
 
             if (result == JOptionPane.OK_OPTION) {
                 // System.out.println(stockFld.getText());
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                String timestamp = df.format(new Date());
+                
                 String name = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
                 int numPurchased = Integer.parseInt(stockFld.getText());
                 
-                System.out.println("[MgmtProduct/purchaseProduct] Username: " + this.currUsername);
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String timestamp = df.format(new Date());
                 
-                this.sqlite.purchaseProduct(this.currUsername, name, numPurchased, timestamp);
+                this.sqlite.purchaseProduct(name, numPurchased, timestamp);
+                this.sqlite.addHistory(this.currUsername, name, numPurchased, timestamp);
             }
         }
     }//GEN-LAST:event_purchaseBtnActionPerformed
@@ -238,9 +239,20 @@ public class MgmtProduct extends javax.swing.JPanel {
         int result = JOptionPane.showConfirmDialog(null, message, "ADD PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
         if (result == JOptionPane.OK_OPTION) {
-            System.out.println(nameFld.getText());
-            System.out.println(stockFld.getText());
-            System.out.println(priceFld.getText());
+            // System.out.println(nameFld.getText());
+            // System.out.println(stockFld.getText());
+            // System.out.println(priceFld.getText());
+            
+            String name = nameFld.getText();
+            int stock = Integer.parseInt(stockFld.getText());
+            float price = Float.parseFloat(priceFld.getText());
+            
+            String desc = "Staff [" + this.currUsername + "] added [" + name + "] to products";
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            String timestamp = df.format(new Date());
+            
+            this.sqlite.addProduct(name, stock, price);
+            this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
         }
     }//GEN-LAST:event_addBtnActionPerformed
 
@@ -249,21 +261,36 @@ public class MgmtProduct extends javax.swing.JPanel {
             JTextField nameFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 0) + "");
             JTextField stockFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 1) + "");
             JTextField priceFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 2) + "");
-
+            
+            String oldName = nameFld.getText();
+            // System.out.println("[MgmtProduct/editBtnActionPerformed] Old Product Name: " + oldName);
+            
             designer(nameFld, "PRODUCT NAME");
             designer(stockFld, "PRODUCT STOCK");
             designer(priceFld, "PRODUCT PRICE");
-
+            
             Object[] message = {
                 "Edit Product Details:", nameFld, stockFld, priceFld
             };
 
             int result = JOptionPane.showConfirmDialog(null, message, "EDIT PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
-
+            
             if (result == JOptionPane.OK_OPTION) {
-                System.out.println(nameFld.getText());
-                System.out.println(stockFld.getText());
-                System.out.println(priceFld.getText());
+                // System.out.println(nameFld.getText());
+                // System.out.println(stockFld.getText());
+                // System.out.println(priceFld.getText());
+                String newName = nameFld.getText();
+                int newStock = Integer.parseInt(stockFld.getText());
+                float newPrice = Float.parseFloat(priceFld.getText());
+                
+                String desc = "Staff [" + this.currUsername + "] edited [" + newName + "] from products";
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String timestamp = df.format(new Date());
+                
+                // System.out.println("[MgmtProduct/editBtnActionPerformed] New Product Name: " + newName);
+                
+                this.sqlite.editProduct(oldName, newName, newStock, newPrice);
+                this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }
         }
     }//GEN-LAST:event_editBtnActionPerformed
@@ -273,7 +300,17 @@ public class MgmtProduct extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "DELETE PRODUCT", JOptionPane.YES_NO_OPTION);
             
             if (result == JOptionPane.YES_OPTION) {
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                // System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                String name = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                // System.out.println("[MgmtProduct/deleteBtnActionPerformed] Product Name: " + name);
+                
+                String desc = "Staff [" + this.currUsername + "] deleted [" + name + "] from products";
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String timestamp = df.format(new Date());
+                
+                // TODO: deleteProduct() method in SQLite.java
+                this.sqlite.deleteProduct(name);
+                this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed

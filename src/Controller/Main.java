@@ -35,6 +35,13 @@ public class Main {
         sqlite.addProduct("Antivirus", 5, 500.0);
         sqlite.addProduct("Firewall", 3, 1000.0);
         sqlite.addProduct("Scanner", 10, 100.0);
+        
+        sqlite.dropLogsTable();
+        sqlite.createLogsTable();
+        sqlite.addLogs("NOTICE", "admin", "User creation successful", new Timestamp(new Date().getTime()).toString());
+        sqlite.addLogs("NOTICE", "manager", "User creation successful", new Timestamp(new Date().getTime()).toString());
+        sqlite.addLogs("NOTICE", "admin", "User creation successful", new Timestamp(new Date().getTime()).toString());
+        
         // */
         
         /*

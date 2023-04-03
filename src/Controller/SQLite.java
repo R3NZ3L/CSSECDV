@@ -251,6 +251,7 @@ public class SQLite {
     
     public ArrayList<Product> getProduct(){
         String sql = "SELECT id, name, stock, price FROM product";
+        
         ArrayList<Product> products = new ArrayList<Product>();
         
         try (Connection conn = DriverManager.getConnection(driverURL);
@@ -258,10 +259,14 @@ public class SQLite {
             ResultSet rs = stmt.executeQuery(sql)){
             
             while (rs.next()) {
+                String name = rs.getString("name");
+                if (name.charAt(name.length() - 1) != '*') {
                 products.add(new Product(rs.getInt("id"),
                                    rs.getString("name"),
                                    rs.getInt("stock"),
                                    rs.getFloat("price")));
+                }
+                
             }
         } catch (Exception ex) {
             System.out.print(ex);
@@ -327,10 +332,8 @@ public class SQLite {
         return product;
     }
     
-    public void purchaseProduct(String username, String name, int numPurchased, String timestamp) {
+    public void purchaseProduct(String name, int numPurchased, String timestamp) {
         Product product = this.getProduct(name);
-        
-        System.out.println("[SQLite/purchaseProduct] Username: " + username);
         
         if ((product.getStock() - numPurchased) >= 0) {
             // Reduce stock by number of products purchased
@@ -338,13 +341,42 @@ public class SQLite {
             try (Connection conn = DriverManager.getConnection(driverURL);
                 Statement stmt = conn.createStatement()){
                 stmt.execute(sql);
-                // Add transaction to history
-                this.addHistory(username, name, numPurchased, timestamp);
             } catch (Exception ex) {
                 System.out.print(ex);
             }
         }
+    }    
         
+    public void editProduct(String oldName, String newName, int newStock, float newPrice){
+        Product product = this.getProduct(oldName);
         
+        if (product != null) {
+            String sql = "UPDATE product SET name = '" + newName + "', stock = " + newStock + ", price = " + newPrice + " WHERE name = '" + oldName + "';";
+            try (Connection conn = DriverManager.getConnection(driverURL);
+                Statement stmt = conn.createStatement()){
+                stmt.execute(sql);
+            } catch (Exception ex) {
+                System.out.print(ex);
+            }
+        }
     }
+    
+    public void deleteProduct(String name) {
+        Product product = this.getProduct(name);
+        
+        String newName = name + '*';
+        System.out.println("[SQLite/deleteProduct] Deleted Product Name: " + newName);
+        
+        if (product != null) {
+            String sql = "UPDATE product SET name = '" + newName + "' WHERE name = '" + name + "';";
+            try (Connection conn = DriverManager.getConnection(driverURL);
+                Statement stmt = conn.createStatement()){
+                stmt.execute(sql);
+            } catch (Exception ex) {
+                System.out.print(ex);
+            }
+        }
+    }
+    
+    
 }

@@ -217,7 +217,7 @@ public class MgmtProduct extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
-                this.sqlite.purchaseProduct(name, numPurchased, timestamp);
+                this.sqlite.purchaseProduct(name, numPurchased);
                 this.sqlite.addHistory(this.currUsername, name, numPurchased, timestamp);
             }
         }

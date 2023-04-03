@@ -57,7 +57,7 @@ public class MgmtHistory extends javax.swing.JPanel {
         }
         
 //      LOAD CONTENTS
-        ArrayList<History> history = sqlite.getHistory(this.role, this.currUsername);
+        ArrayList<History> history = sqlite.getHistory(this.role, this.currUsername, 0);
         for(int nCtr = 0; nCtr < history.size(); nCtr++){
             Product product = sqlite.getProduct(history.get(nCtr).getName());
             tableModel.addRow(new Object[]{
@@ -172,7 +172,7 @@ public class MgmtHistory extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        JTextField searchFld = new JTextField("0");
+        JTextField searchFld = new JTextField("");
         designer(searchFld, "SEARCH USERNAME OR PRODUCT");
 
         Object[] message = {
@@ -188,7 +188,7 @@ public class MgmtHistory extends javax.swing.JPanel {
             }
 
 //          LOAD CONTENTS
-            ArrayList<History> history = sqlite.getHistory(this.role, this.currUsername);
+            ArrayList<History> history = sqlite.getHistory(this.role, searchFld.getText(), 1);
             for(int nCtr = 0; nCtr < history.size(); nCtr++){
                 if(searchFld.getText().contains(history.get(nCtr).getUsername()) || 
                    history.get(nCtr).getUsername().contains(searchFld.getText()) || 

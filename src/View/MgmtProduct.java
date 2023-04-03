@@ -247,7 +247,13 @@ public class MgmtProduct extends javax.swing.JPanel {
             int stock = Integer.parseInt(stockFld.getText());
             float price = Float.parseFloat(priceFld.getText());
             
-            String desc = "Staff [" + this.currUsername + "] added [" + name + "] to products";
+            String desc = "";
+            if (role == 3) {
+                desc += "Staff";
+            } else if (role == 4) {
+                desc += "Manager";
+            }
+            desc += " [" + this.currUsername + "] added [" + name + "] to products";
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             String timestamp = df.format(new Date());
             
@@ -283,7 +289,13 @@ public class MgmtProduct extends javax.swing.JPanel {
                 int newStock = Integer.parseInt(stockFld.getText());
                 float newPrice = Float.parseFloat(priceFld.getText());
                 
-                String desc = "Staff [" + this.currUsername + "] edited [" + newName + "] from products";
+                String desc = "";
+                if (role == 3) {
+                    desc += "Staff";
+                } else if (role == 4) {
+                    desc += "Manager";
+                }
+                desc += " [" + this.currUsername + "] edited [" + oldName + "] from products";
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
@@ -304,7 +316,13 @@ public class MgmtProduct extends javax.swing.JPanel {
                 String name = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
                 // System.out.println("[MgmtProduct/deleteBtnActionPerformed] Product Name: " + name);
                 
-                String desc = "Staff [" + this.currUsername + "] deleted [" + name + "] from products";
+                String desc = "";
+                if (role == 3) {
+                    desc += "Staff";
+                } else if (role == 4) {
+                    desc += "Manager";
+                }
+                desc += " [" + this.currUsername + "] deleted [" + name + "] from products";
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 

@@ -200,14 +200,15 @@ public class SQLite {
     }
     
     
-    public ArrayList<History> getHistory(int role, String username){
+    public ArrayList<History> getHistory(int role, String username, int filtered){
         System.out.println("[SQLite/getHistory] Username: " + username);
         
         String sql = "SELECT id, username, name, stock, timestamp FROM history";
         
-        if (role == 2) {
+        // Finding a specific user applies to Client-level users by default
+        if (role == 2 && (role == 4 && filtered == 1)) {
             sql += " WHERE username = '" + username + "'";
-        }
+        } 
         
         ArrayList<History> histories = new ArrayList<History>();
         

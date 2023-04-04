@@ -72,7 +72,6 @@ public class MgmtProduct extends javax.swing.JPanel {
                 products.get(nCtr).getPrice()});
         }
         
-        // System.out.println("[MgmtProduct/init] Username: " + this.currUsername);
     }
     
     public void designer(JTextField component, String text){

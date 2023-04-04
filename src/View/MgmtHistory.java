@@ -69,8 +69,6 @@ public class MgmtHistory extends javax.swing.JPanel {
                 history.get(nCtr).getTimestamp()
             });
         }
-        
-        System.out.println("[MgmtHistory/init] Username: " + this.currUsername);
     }
     
     public void designer(JTextField component, String text){

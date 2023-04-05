@@ -28,6 +28,7 @@ public class MgmtUser extends javax.swing.JPanel {
     public DefaultTableModel tableModel;
     
     private String currUsername;
+    private int role;
     
     public MgmtUser(SQLite sqlite) {
         initComponents();
@@ -42,8 +43,9 @@ public class MgmtUser extends javax.swing.JPanel {
 //        chgpassBtn.setVisible(false);
     }
     
-    public void init(String username){
+    public void init(String username, int role){
         this.currUsername = username;
+        this.role = role;
         
         //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
@@ -204,7 +206,7 @@ public class MgmtUser extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
-                this.sqlite.addLogs("USER ROLE EDIT", this.currUsername, desc, timestamp);
+                this.sqlite.addLogs("USER ROLE EDIT", this.currUsername, desc, timestamp, this.role);
                 this.sqlite.editUserRole(username, newRole);
             }
         }
@@ -222,7 +224,7 @@ public class MgmtUser extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
-                this.sqlite.addLogs("USER DELETE", this.currUsername, desc, timestamp);
+                this.sqlite.addLogs("USER DELETE", this.currUsername, desc, timestamp, this.role);
                 this.sqlite.deleteUser(username);
             }
         }
@@ -257,7 +259,7 @@ public class MgmtUser extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
-                this.sqlite.addLogs("USER LOCK", this.currUsername, desc, timestamp);
+                this.sqlite.addLogs("USER LOCK", this.currUsername, desc, timestamp, this.role);
                 this.sqlite.setLockState(username, newLockState);
             }
         }
@@ -288,7 +290,7 @@ public class MgmtUser extends javax.swing.JPanel {
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                     String timestamp = df.format(new Date());
                     
-                    this.sqlite.addLogs("USER PASSWORD CHANGE", this.currUsername, desc, timestamp);
+                    this.sqlite.addLogs("USER PASSWORD CHANGE", this.currUsername, desc, timestamp, this.role);
                     this.sqlite.changePassword(username, newPass);
                 } else {
                     System.out.println("[SQLite/chgpassBtnActionPerformed] Passwords did not match");

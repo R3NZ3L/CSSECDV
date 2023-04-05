@@ -48,8 +48,9 @@ public class MgmtHistory extends javax.swing.JPanel {
 //        reportBtn.setVisible(false);
     }
 
-    public void init(String username){
+    public void init(String username, int role){
         this.currUsername = username;
+        this.role = role;
         
 //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
@@ -59,7 +60,7 @@ public class MgmtHistory extends javax.swing.JPanel {
 //      LOAD CONTENTS
         ArrayList<History> history = sqlite.getHistory(this.role, this.currUsername, 0);
         for(int nCtr = 0; nCtr < history.size(); nCtr++){
-            Product product = sqlite.getProduct(history.get(nCtr).getName());
+            Product product = sqlite.getProduct(history.get(nCtr).getName(), this.role);
             tableModel.addRow(new Object[]{
                 history.get(nCtr).getUsername(), 
                 history.get(nCtr).getName(), 
@@ -193,7 +194,7 @@ public class MgmtHistory extends javax.swing.JPanel {
                    searchFld.getText().contains(history.get(nCtr).getName()) || 
                    history.get(nCtr).getName().contains(searchFld.getText())){
                 
-                    Product product = sqlite.getProduct(history.get(nCtr).getName());
+                    Product product = sqlite.getProduct(history.get(nCtr).getName(), this.role);
                     tableModel.addRow(new Object[]{
                         history.get(nCtr).getUsername(), 
                         history.get(nCtr).getName(), 
@@ -208,7 +209,7 @@ public class MgmtHistory extends javax.swing.JPanel {
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void reloadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadBtnActionPerformed
-        init(this.currUsername);
+        init(this.currUsername, this.role);
     }//GEN-LAST:event_reloadBtnActionPerformed
 
 

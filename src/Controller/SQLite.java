@@ -186,7 +186,7 @@ public class SQLite {
         }
     }
     
-    public void addHistory(String username, String name, int stock, String timestamp) {
+    public void addHistory(String username, int role, String name, int stock, String timestamp) {
         String sql = "INSERT INTO history(username,name,stock,timestamp) VALUES(?,?,?,?)";
         
         try (Connection conn = DriverManager.getConnection(driverURL)) {
@@ -196,17 +196,17 @@ public class SQLite {
             stmt.setInt(3, stock);
             stmt.setString(4, timestamp);
             stmt.executeUpdate();
-            if (this.DEBUG_MODE == 1) {
+            if (this.DEBUG_MODE == 1 && role > 2) {
                 System.out.println("[SQLite/addHistory] Added [" + username + "] entry in purchase history.");
             }
         } catch (Exception ex) {
-            if (this.DEBUG_MODE == 1) {
+            if (this.DEBUG_MODE == 1 && role > 2) {
                 System.out.println("[SQLite/addHistory] " + ex);
             }
         }
     }
     
-    public void addLogs(String event, String username, String desc, String timestamp) {
+    public void addLogs(String event, String username, String desc, String timestamp, int role) {
         String sql = "INSERT INTO logs(event,username,desc,timestamp) VALUES(?,?,?,?)";
         
         try (Connection conn = DriverManager.getConnection(driverURL)) {
@@ -216,11 +216,11 @@ public class SQLite {
             stmt.setString(3, desc);
             stmt.setString(4, timestamp);
             stmt.executeUpdate();
-            if (this.DEBUG_MODE == 1) {
+            if (this.DEBUG_MODE == 1 && role > 2) {
                 System.out.println("[SQLite/addLogs] Added [" + username + "] log entry.");
             }
         } catch (Exception ex) {
-            if (this.DEBUG_MODE == 1) {
+            if (this.DEBUG_MODE == 1 && role > 2) {
                 System.out.println("[SQLite/addLogs] " + ex);
             }
         }
@@ -292,12 +292,14 @@ public class SQLite {
                                    rs.getInt("stock"),
                                    rs.getString("timestamp")));
             }
-            if (this.DEBUG_MODE == 1) {
+            if (this.DEBUG_MODE == 1 && role > 2) {
                 System.out.println("[SQLite/getHistory] Records from history table successfully retrieved.");
             }
         } catch (Exception ex) {
-            if (this.DEBUG_MODE == 1) {
+            if (this.DEBUG_MODE == 1 && role > 2) {
                 System.out.println("[SQLite/getHistory] " + ex);
+            } else {
+                System.out.println("An error occured.");
             }
         }
         
@@ -332,7 +334,7 @@ public class SQLite {
         return logs;
     }
     
-    public ArrayList<Product> getProduct(){
+    public ArrayList<Product> getProduct(int role){
         String sql = "SELECT id, name, stock, price FROM product";
         
         ArrayList<Product> products = new ArrayList<Product>();
@@ -353,12 +355,14 @@ public class SQLite {
                 
             }
         } catch (Exception ex) {
-            if (this.DEBUG_MODE == 1) {
+            if (this.DEBUG_MODE == 1 && role > 2) {
                 System.out.println("[SQLite/getProduct] " + ex);
+            } else {
+                System.out.println("An error has occured.");
             }
         }
         
-        if (this.DEBUG_MODE == 1) {
+        if (this.DEBUG_MODE == 1 && role > 2) {
             System.out.println("[SQLite/getProduct] Records from products table successfully retrieved.");
         }
         
@@ -410,7 +414,7 @@ public class SQLite {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             String timestamp = df.format(new Date());
         
-            this.addLogs("USER REGISTRATION", username, desc, timestamp);
+            this.addLogs("USER REGISTRATION", username, desc, timestamp, role);
             
             stmt.executeUpdate();
             if (this.DEBUG_MODE == 1) {
@@ -437,7 +441,7 @@ public class SQLite {
     }
     // */
     
-    public Product getProduct(String name){
+    public Product getProduct(String name, int role){
         String sql = "SELECT name, stock, price FROM product WHERE name=?;";
         Product product = null;
         try (Connection conn = DriverManager.getConnection(driverURL)) {
@@ -448,20 +452,22 @@ public class SQLite {
                                    rs.getInt("stock"),
                                    rs.getFloat("price"));
         } catch (Exception ex) {
-            if (this.DEBUG_MODE == 1) {
+            if (this.DEBUG_MODE == 1 && role > 2) {
                 System.out.println("[SQLite/getProduct] " + ex);
+            } else {
+                System.out.println("An error has occured");
             }
         }
         
-        if (this.DEBUG_MODE == 1) {
+        if (this.DEBUG_MODE == 1 && role > 2) {
             System.out.println("[SQLite/getProduct] Successfuly retrieved [" + name + "].");
         }
         
         return product;
     }
     
-    public void purchaseProduct(String name, int numPurchased) {
-        Product product = this.getProduct(name);
+    public void purchaseProduct(String name, int role, int numPurchased) {
+        Product product = this.getProduct(name, role);
         
         if ((product.getStock() - numPurchased) >= 0) {
             // Reduce stock by number of products purchased
@@ -471,19 +477,23 @@ public class SQLite {
                 stmt.setInt(1, numPurchased);
                 stmt.setString(2, name);
                 stmt.executeUpdate();
-                if (this.DEBUG_MODE == 1) {
+                if (this.DEBUG_MODE == 1 && role > 2) {
                     System.out.println("[SQLite/purchaseProduct] Successfully purchased " + numPurchased + " of [" + name + "].");
+                } else {
+                    System.out.println("Successfully purchased " + numPurchased + " of [" + name + "].");
                 }
             } catch (Exception ex) {
-                if (this.DEBUG_MODE == 1) {
+                if (this.DEBUG_MODE == 1 && role > 2) {
                     System.out.println("[SQLite/purchaseProduct] " + ex);
+                } else {
+                    System.out.println("An error has occured.");
                 }
             }
         }
     }    
         
-    public void editProduct(String oldName, String newName, int newStock, float newPrice){
-        Product product = this.getProduct(oldName);
+    public void editProduct(String oldName, int role, String newName, int newStock, float newPrice){
+        Product product = this.getProduct(oldName, role);
         
         if (product != null) {
             String sql = "UPDATE product SET name = ?, stock = ?, price = ? WHERE name = ?;";
@@ -494,19 +504,19 @@ public class SQLite {
                 stmt.setFloat(3, newPrice);
                 stmt.setString(4, oldName);
                 stmt.executeUpdate();
-                if (this.DEBUG_MODE == 1) {
+                if (this.DEBUG_MODE == 1 && role > 2) {
                     System.out.println("[SQLite/editProduct] Product [" + oldName + "] successfully modified.");
                 }
             } catch (Exception ex) {
-                if (this.DEBUG_MODE == 1) {
+                if (this.DEBUG_MODE == 1 && role > 2) {
                     System.out.println("[SQLite/editProduct] " + ex);
                 }
             }
         }
     }
     
-    public void deleteProduct(String name) {
-        Product product = this.getProduct(name);
+    public void deleteProduct(String name, int role) {
+        Product product = this.getProduct(name, role);
         
         String newName = name + '*';
         
@@ -517,11 +527,11 @@ public class SQLite {
                 stmt.setString(1, newName);
                 stmt.setString(2, name);
                 stmt.executeUpdate();
-                if (this.DEBUG_MODE == 1) {
+                if (this.DEBUG_MODE == 1 && role > 2) {
                     System.out.println("[SQLite/deleteProduct] Product [" + name + "] marked for deletion.");
                 }
             } catch (Exception ex) {
-                if (this.DEBUG_MODE == 1) {
+                if (this.DEBUG_MODE == 1 && role > 2) {
                     System.out.println("[SQLite/deleteProduct] " + ex);
                 }
             }

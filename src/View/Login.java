@@ -4,6 +4,8 @@ package View;
 import java.util.ArrayList;
 import Model.User;
 import Controller.SQLite;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Login extends javax.swing.JPanel {
 
@@ -125,6 +127,12 @@ public class Login extends javax.swing.JPanel {
                 usernameFld.setText("");
                 passwordFld.setText("");
                 jLabel2.setText("");
+                
+                String desc = "User [" + username + "] logged in";
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String timestamp = df.format(new Date());
+                
+                sqlite.addLogs("USER LOGIN", username, desc, timestamp, role);
                 frame.mainNav(role, username); //Passes username for History tab
             } else {
                 usernameFld.setText("");

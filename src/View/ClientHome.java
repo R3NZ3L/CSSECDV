@@ -27,6 +27,7 @@ public class ClientHome extends javax.swing.JPanel {
     public MgmtUser mgmtUser;
     
     private String currUsername;
+    private int role;
     
     private CardLayout contentView = new CardLayout();
     
@@ -56,6 +57,10 @@ public class ClientHome extends javax.swing.JPanel {
     
     public void setCurrUsername(String username) {
         this.currUsername = username;
+    }
+    
+    public void setRole(int role) {
+        this.role = role;
     }
     
     public void showPnl(String panelName){
@@ -162,7 +167,7 @@ public class ClientHome extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     
     private void usersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersBtnActionPerformed
-        mgmtUser.init(this.currUsername);
+        mgmtUser.init(this.currUsername, this.role);
         usersBtn.setForeground(Color.red);
         productsBtn.setForeground(Color.black);
         historyBtn.setForeground(Color.black);
@@ -171,7 +176,7 @@ public class ClientHome extends javax.swing.JPanel {
     }//GEN-LAST:event_usersBtnActionPerformed
 
     private void productsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productsBtnActionPerformed
-        mgmtProduct.init(this.currUsername);
+        mgmtProduct.init(this.currUsername, this.role);
         usersBtn.setForeground(Color.black);
         productsBtn.setForeground(Color.red);
         historyBtn.setForeground(Color.black);
@@ -180,7 +185,7 @@ public class ClientHome extends javax.swing.JPanel {
     }//GEN-LAST:event_productsBtnActionPerformed
 
     private void historyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyBtnActionPerformed
-        mgmtHistory.init(this.currUsername);
+        mgmtHistory.init(this.currUsername, this.role);
         usersBtn.setForeground(Color.black);
         productsBtn.setForeground(Color.black);
         historyBtn.setForeground(Color.red);
@@ -189,7 +194,7 @@ public class ClientHome extends javax.swing.JPanel {
     }//GEN-LAST:event_historyBtnActionPerformed
 
     private void logsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsBtnActionPerformed
-        mgmtLogs.init(this.currUsername);
+        mgmtLogs.init(this.currUsername, this.role);
         usersBtn.setForeground(Color.black);
         productsBtn.setForeground(Color.black);
         historyBtn.setForeground(Color.black);

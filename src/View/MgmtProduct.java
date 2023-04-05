@@ -55,8 +55,9 @@ public class MgmtProduct extends javax.swing.JPanel {
 //        deleteBtn.setVisible(false);
     }
 
-    public void init(String username){
+    public void init(String username, int role){
         this.currUsername = username;
+        this.role = role;
         
         //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
@@ -64,7 +65,7 @@ public class MgmtProduct extends javax.swing.JPanel {
         }
         
 //      LOAD CONTENTS
-        ArrayList<Product> products = sqlite.getProduct();
+        ArrayList<Product> products = sqlite.getProduct(role);
         for(int nCtr = 0; nCtr < products.size(); nCtr++){
             tableModel.addRow(new Object[]{
                 products.get(nCtr).getName(), 
@@ -216,8 +217,8 @@ public class MgmtProduct extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
-                this.sqlite.purchaseProduct(name, numPurchased);
-                this.sqlite.addHistory(this.currUsername, name, numPurchased, timestamp);
+                this.sqlite.purchaseProduct(name, this.role, numPurchased);
+                this.sqlite.addHistory(this.currUsername, this.role, name, numPurchased, timestamp);
             }
         }
     }//GEN-LAST:event_purchaseBtnActionPerformed
@@ -256,7 +257,7 @@ public class MgmtProduct extends javax.swing.JPanel {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             String timestamp = df.format(new Date());
             
-            this.sqlite.addLogs("PRODUCT ADD", this.currUsername, desc, timestamp);
+            this.sqlite.addLogs("PRODUCT ADD", this.currUsername, desc, timestamp, this.role);
             this.sqlite.addProduct(name, stock, price);
         }
     }//GEN-LAST:event_addBtnActionPerformed
@@ -297,8 +298,8 @@ public class MgmtProduct extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
-                this.sqlite.addLogs("PRODUCT EDIT", this.currUsername, desc, timestamp);
-                this.sqlite.editProduct(oldName, newName, newStock, newPrice);
+                this.sqlite.addLogs("PRODUCT EDIT", this.currUsername, desc, timestamp, this.role);
+                this.sqlite.editProduct(oldName, this.role, newName, newStock, newPrice);
             }
         }
     }//GEN-LAST:event_editBtnActionPerformed
@@ -321,8 +322,8 @@ public class MgmtProduct extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
-                this.sqlite.addLogs("PRODUCT DELETE", this.currUsername, desc, timestamp);
-                this.sqlite.deleteProduct(name);
+                this.sqlite.addLogs("PRODUCT DELETE", this.currUsername, desc, timestamp, this.role);
+                this.sqlite.deleteProduct(name, this.role);
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed

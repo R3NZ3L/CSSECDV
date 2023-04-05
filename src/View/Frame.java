@@ -219,7 +219,7 @@ public class Frame extends javax.swing.JFrame {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         String timestamp = df.format(new Date());
         
-        main.sqlite.addLogs("USER LOGOUT", this.currUsername, desc, timestamp);
+        main.sqlite.addLogs("USER LOGOUT", this.currUsername, desc, timestamp, this.role);
         
         this.currUsername = "";
         this.role = -1;
@@ -283,6 +283,7 @@ public class Frame extends javax.swing.JFrame {
             clientBtn.setEnabled(false);
             contentView.show(Content, "adminHomePnl");
             this.adminHomePnl.setCurrUsername(username);
+            this.adminHomePnl.setRole(role);
         }
         if(role == 4){
             adminBtn.setVisible(false);
@@ -295,6 +296,7 @@ public class Frame extends javax.swing.JFrame {
             clientBtn.setEnabled(false); 
             contentView.show(Content, "managerHomePnl");
             this.managerHomePnl.setCurrUsername(username);
+            this.managerHomePnl.setRole(role);
         }
         if(role == 3){
             adminBtn.setVisible(false);
@@ -307,6 +309,7 @@ public class Frame extends javax.swing.JFrame {
             clientBtn.setEnabled(false);
             contentView.show(Content, "staffHomePnl");   
             this.staffHomePnl.setCurrUsername(username);
+            this.staffHomePnl.setRole(role);
         }
         if(role == 2){
             adminBtn.setVisible(false);
@@ -319,6 +322,7 @@ public class Frame extends javax.swing.JFrame {
             staffBtn.setEnabled(false);
             contentView.show(Content, "clientHomePnl");
             this.clientHomePnl.setCurrUsername(username);
+            this.clientHomePnl.setRole(role);
        }
         frameView.show(Container, "homePnl");
     }

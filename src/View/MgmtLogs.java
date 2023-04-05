@@ -22,6 +22,7 @@ public class MgmtLogs extends javax.swing.JPanel {
     public DefaultTableModel tableModel;
     
     private String currUsername;
+    private int role;
     
     public MgmtLogs(SQLite sqlite) {
         initComponents();
@@ -34,8 +35,9 @@ public class MgmtLogs extends javax.swing.JPanel {
 //        debugBtn.setVisible(false);
     }
 
-    public void init(String username){
+    public void init(String username, int role){
         this.currUsername = username;
+        this.role = role;
         
         //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
@@ -148,15 +150,29 @@ public class MgmtLogs extends javax.swing.JPanel {
         this.sqlite.dropLogsTable();
         this.sqlite.createLogsTable();
         
-        this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
+        this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp, this.role);
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void debugBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugBtnActionPerformed
         if(sqlite.DEBUG_MODE == 1) {
             System.out.println("Disabling DEBUG MODE...");
+            
+            String desc = "Admin [" + this.currUsername + "] disabled debug mode";
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            String timestamp = df.format(new Date());
+            
+            this.sqlite.addLogs("DEBUG", this.currUsername, desc, timestamp, this.role);
+            
             sqlite.DEBUG_MODE = 0;
         } else {
             System.out.println("Enabling DEBUG MODE...");
+            
+            String desc = "Admin [" + this.currUsername + "] enabled debug mode";
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            String timestamp = df.format(new Date());
+            
+            this.sqlite.addLogs("DEBUG", this.currUsername, desc, timestamp, this.role);
+            
             sqlite.DEBUG_MODE = 1;
         }
     }//GEN-LAST:event_debugBtnActionPerformed

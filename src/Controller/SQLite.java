@@ -10,7 +10,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SQLite {
     
@@ -403,6 +405,13 @@ public class SQLite {
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setInt(3, role);
+            
+            String desc = "Account created. Username: [" + username + "]";
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            String timestamp = df.format(new Date());
+        
+            this.addLogs("USER REGISTRATION", username, desc, timestamp);
+            
             stmt.executeUpdate();
             if (this.DEBUG_MODE == 1) {
                 System.out.println("[SQLite/addUser] Added [" + username + "] to users table.");

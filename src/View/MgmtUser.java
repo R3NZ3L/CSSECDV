@@ -204,8 +204,8 @@ public class MgmtUser extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
+                this.sqlite.addLogs("USER ROLE EDIT", this.currUsername, desc, timestamp);
                 this.sqlite.editUserRole(username, newRole);
-                this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }
         }
     }//GEN-LAST:event_editRoleBtnActionPerformed
@@ -222,8 +222,8 @@ public class MgmtUser extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
+                this.sqlite.addLogs("USER DELETE", this.currUsername, desc, timestamp);
                 this.sqlite.deleteUser(username);
-                this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
@@ -257,8 +257,8 @@ public class MgmtUser extends javax.swing.JPanel {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestamp = df.format(new Date());
                 
+                this.sqlite.addLogs("USER LOCK", this.currUsername, desc, timestamp);
                 this.sqlite.setLockState(username, newLockState);
-                this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
             }
         }
     }//GEN-LAST:event_lockBtnActionPerformed
@@ -288,8 +288,8 @@ public class MgmtUser extends javax.swing.JPanel {
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                     String timestamp = df.format(new Date());
                     
+                    this.sqlite.addLogs("USER PASSWORD CHANGE", this.currUsername, desc, timestamp);
                     this.sqlite.changePassword(username, newPass);
-                    this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
                 } else {
                     System.out.println("[SQLite/chgpassBtnActionPerformed] Passwords did not match");
                 }

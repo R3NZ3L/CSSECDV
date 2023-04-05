@@ -1,6 +1,8 @@
 
 package View;
 
+import Controller.SQLite;
+
 public class Register extends javax.swing.JPanel {
 
     public Frame frame;

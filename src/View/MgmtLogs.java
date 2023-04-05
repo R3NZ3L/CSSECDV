@@ -141,12 +141,12 @@ public class MgmtLogs extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        this.sqlite.dropLogsTable();
-        this.sqlite.createLogsTable();
-        
         String desc = "Admin [" + this.currUsername + "] cleared the logs";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         String timestamp = df.format(new Date());
+        
+        this.sqlite.dropLogsTable();
+        this.sqlite.createLogsTable();
         
         this.sqlite.addLogs("NOTICE", this.currUsername, desc, timestamp);
     }//GEN-LAST:event_clearBtnActionPerformed

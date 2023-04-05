@@ -1,13 +1,16 @@
 package View;
 
 import Controller.Main;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.WindowConstants;
 
 public class Frame extends javax.swing.JFrame {
 
+    private String currUsername;
+    private int role;
+    
     public Frame() {
         initComponents();
     }
@@ -211,6 +214,16 @@ public class Frame extends javax.swing.JFrame {
             
         clientBtn.setVisible(true); 
         clientBtn.setEnabled(true);
+        
+        String desc = "User [" + this.currUsername + "] logged out";
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String timestamp = df.format(new Date());
+        
+        main.sqlite.addLogs("USER LOGOUT", this.currUsername, desc, timestamp);
+        
+        this.currUsername = "";
+        this.role = -1;
+        
         frameView.show(Container, "loginPnl");
     }//GEN-LAST:event_logoutBtnActionPerformed
 
@@ -256,6 +269,9 @@ public class Frame extends javax.swing.JFrame {
     }
     
     public void mainNav(int role, String username){
+        this.currUsername = username;
+        this.role = role;
+        
         if(role == 5){  
             managerBtn.setVisible(false);
             managerBtn.setEnabled(false);

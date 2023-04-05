@@ -38,9 +38,6 @@ public class Main {
         
         sqlite.dropLogsTable();
         sqlite.createLogsTable();
-        sqlite.addLogs("NOTICE", "admin", "User creation successful", new Timestamp(new Date().getTime()).toString());
-        sqlite.addLogs("NOTICE", "manager", "User creation successful", new Timestamp(new Date().getTime()).toString());
-        sqlite.addLogs("NOTICE", "admin", "User creation successful", new Timestamp(new Date().getTime()).toString());
         
         sqlite.dropUserTable();
         sqlite.createUserTable();
